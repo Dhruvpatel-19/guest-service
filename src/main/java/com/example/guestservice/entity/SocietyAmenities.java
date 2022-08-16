@@ -11,16 +11,13 @@ public class SocietyAmenities {
     private int societyId;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
 
     public SocietyAmenities() {
     }
 
-    public SocietyAmenities(int societyId, String name, LocalDateTime createdAt) {
+    public SocietyAmenities(int societyId, String name) {
         this.societyId = societyId;
         this.name = name;
-        this.createdAt = createdAt;
     }
 
     public int getSocietyId() {
@@ -39,11 +36,4 @@ public class SocietyAmenities {
         this.name = name;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }

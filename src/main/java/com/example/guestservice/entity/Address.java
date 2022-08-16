@@ -18,21 +18,18 @@ public class Address {
     private String state;
     @Column(nullable = false)
     private int postCode;
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
 
     public Address() {
 
     }
 
-    public Address(int addressId, String streetLine, String additionalStreet, String city, String state, int postCode, LocalDateTime createdAt) {
+    public Address(int addressId, String streetLine, String additionalStreet, String city, String state, int postCode) {
         this.addressId = addressId;
         this.streetLine = streetLine;
         this.additionalStreet = additionalStreet;
         this.city = city;
         this.state = state;
         this.postCode = postCode;
-        this.createdAt = createdAt;
     }
 
     public int getAddressId() {
@@ -83,11 +80,4 @@ public class Address {
         this.postCode = postCode;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }

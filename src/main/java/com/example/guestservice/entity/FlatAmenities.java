@@ -12,16 +12,13 @@ public class FlatAmenities {
 
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
 
     public FlatAmenities() {
     }
 
-    public FlatAmenities(int flatId, String name, LocalDateTime createdAt) {
+    public FlatAmenities(int flatId, String name) {
         this.flatId = flatId;
         this.name = name;
-        this.createdAt = createdAt;
     }
 
     public int getFlatId() {
@@ -40,11 +37,4 @@ public class FlatAmenities {
         this.name = name;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }

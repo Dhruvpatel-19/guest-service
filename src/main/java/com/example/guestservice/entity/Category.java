@@ -12,16 +12,12 @@ public class Category {
     @Column(nullable = false)
     private String category;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
     public Category() {
     }
 
-    public Category(int categoryId, String category, LocalDateTime createdAt) {
+    public Category(int categoryId, String category) {
         this.categoryId = categoryId;
         this.category = category;
-        this.createdAt = createdAt;
     }
 
     public int getCategoryId() {
@@ -40,11 +36,4 @@ public class Category {
         this.category = category;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }
