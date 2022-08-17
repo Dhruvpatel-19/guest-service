@@ -16,9 +16,6 @@ public class Property {
     private String price;
 
     @Column(nullable = false)
-    private List<String> images;
-
-    @Column(nullable = false)
     private String area;
 
     @Column(nullable = false)
@@ -39,6 +36,10 @@ public class Property {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(targetEntity = Image.class , cascade = CascadeType.ALL)
+    @JoinColumn(name="image_id_fk" , referencedColumnName = "propertyId" , nullable = false)
+    private List<Image> images;
 
     @OneToMany(targetEntity = SocietyAmenities.class , cascade = CascadeType.ALL)
     @JoinColumn(name="property_id_fk",referencedColumnName = "propertyId" , nullable = false)
@@ -63,7 +64,7 @@ public class Property {
     public Property() {
     }
 
-    public Property(int propertyId, String price, List<String> images, String area, int action, int ageYears, String furnishing, Date availableFrom, Date availableTo, String parkingAvailability, LocalDateTime createdAt, List<SocietyAmenities> societyAmenities, List<FlatAmenities> flatAmenities, Category category, Type type, Address address) {
+    public Property(int propertyId, String price, List<Image> images, String area, int action, int ageYears, String furnishing, Date availableFrom, Date availableTo, String parkingAvailability, LocalDateTime createdAt, List<SocietyAmenities> societyAmenities, List<FlatAmenities> flatAmenities, Category category, Type type, Address address) {
         this.propertyId = propertyId;
         this.price = price;
         this.images = images;
@@ -98,11 +99,11 @@ public class Property {
         this.price = price;
     }
 
-    public List<String> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
