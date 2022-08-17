@@ -38,7 +38,7 @@ public class Property {
     private LocalDateTime createdAt;
 
     @OneToMany(targetEntity = Image.class , cascade = CascadeType.ALL)
-    @JoinColumn(name="image_id_fk" , referencedColumnName = "propertyId" , nullable = false)
+    @JoinColumn(name="property_id_fk" , referencedColumnName = "propertyId" , nullable = false)
     private List<Image> images;
 
     @OneToMany(targetEntity = SocietyAmenities.class , cascade = CascadeType.ALL)
@@ -49,11 +49,11 @@ public class Property {
     @JoinColumn(name="property_id_fk",referencedColumnName = "propertyId" , nullable = false)
     private List<FlatAmenities> flatAmenities;
 
-    @OneToOne(targetEntity = Category.class , cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Category.class)
     @JoinColumn(name = "category_id_fk" , referencedColumnName = "categoryId" , nullable = false)
     private Category category;
 
-    @OneToOne(targetEntity = Type.class , cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Type.class)
     @JoinColumn(name = "type_id_fk" , referencedColumnName = "typeId" , nullable = false)
     private Type type;
 

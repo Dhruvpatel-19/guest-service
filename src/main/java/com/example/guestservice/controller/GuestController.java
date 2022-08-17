@@ -34,8 +34,8 @@ public class GuestController {
        return propertyService.updateProperty(id , updatedProperty);
     }
 
-    @RequestMapping(value = "/deleteProperty" , method = RequestMethod.DELETE)
-    public String deleteProperty(int id){
+    @RequestMapping(value = "/deleteProperty/{id}" , method = RequestMethod.DELETE)
+    public String deleteProperty(@PathVariable("id") int id){
         return propertyService.deleteProperty(id);
     }
 
