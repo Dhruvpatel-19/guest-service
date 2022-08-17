@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class FlatAmenities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int flatId;
+    private int flatAmenitiesId;
 
     @Column(nullable = false)
     private String name;
@@ -16,17 +16,17 @@ public class FlatAmenities {
     public FlatAmenities() {
     }
 
-    public FlatAmenities(int flatId, String name) {
-        this.flatId = flatId;
+    public FlatAmenities(int flatAmenitiesId, String name) {
+        this.flatAmenitiesId = flatAmenitiesId;
         this.name = name;
     }
 
-    public int getFlatId() {
-        return flatId;
+    public int getFlatAmenitiesId() {
+        return flatAmenitiesId;
     }
 
-    public void setFlatId(int flatId) {
-        this.flatId = flatId;
+    public void setFlatAmenitiesId(int flatAmenitiesId) {
+        this.flatAmenitiesId = flatAmenitiesId;
     }
 
     public String getName() {
@@ -36,5 +36,4 @@ public class FlatAmenities {
     public void setName(String name) {
         this.name = name;
     }
-
 }

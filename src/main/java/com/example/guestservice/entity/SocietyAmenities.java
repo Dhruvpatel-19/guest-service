@@ -8,24 +8,24 @@ import java.time.LocalDateTime;
 public class SocietyAmenities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int societyId;
+    private int societyAmenitiesId;
     @Column(nullable = false)
     private String name;
 
     public SocietyAmenities() {
     }
 
-    public SocietyAmenities(int societyId, String name) {
-        this.societyId = societyId;
+    public SocietyAmenities(int societyAmenitiesId, String name) {
+        this.societyAmenitiesId = societyAmenitiesId;
         this.name = name;
     }
 
-    public int getSocietyId() {
-        return societyId;
+    public int getSocietyAmenitiesId() {
+        return societyAmenitiesId;
     }
 
-    public void setSocietyId(int societyId) {
-        this.societyId = societyId;
+    public void setSocietyAmenitiesId(int societyAmenitiesId) {
+        this.societyAmenitiesId = societyAmenitiesId;
     }
 
     public String getName() {
@@ -35,5 +35,4 @@ public class SocietyAmenities {
     public void setName(String name) {
         this.name = name;
     }
-
 }
