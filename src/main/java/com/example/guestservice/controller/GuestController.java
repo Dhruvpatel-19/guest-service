@@ -14,27 +14,27 @@ public class GuestController {
     @Autowired
     private PropertyService propertyService;
 
-    @RequestMapping(value = "/addProperty" , method = RequestMethod.POST)
+    @PostMapping(value = "/addProperty")
     public Property addProperty(@RequestBody Property property){
         return propertyService.addProperty(property);
     }
 
-    @RequestMapping(value = "/getProperty/{id}" , method = RequestMethod.GET)
+    @GetMapping(value = "/getProperty/{id}")
     public Property getProperty(@PathVariable("id")int id){
         return propertyService.getProperty(id);
     }
 
-    @RequestMapping(value = "/getAllProperty" , method = RequestMethod.GET)
+    @GetMapping(value = "/getAllProperty")
     public List<Property> getAllProperty(){
         return propertyService.getAllProperty();
     }
 
-    @RequestMapping(value = "/updateProperty/{id}" , method = RequestMethod.PUT)
+    @PutMapping(value = "/updateProperty/{id}")
     public Property updateProperty(@PathVariable("id") int id , @RequestBody Property updatedProperty){
        return propertyService.updateProperty(id , updatedProperty);
     }
 
-    @RequestMapping(value = "/deleteProperty/{id}" , method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/deleteProperty/{id}")
     public String deleteProperty(@PathVariable("id") int id){
         return propertyService.deleteProperty(id);
     }

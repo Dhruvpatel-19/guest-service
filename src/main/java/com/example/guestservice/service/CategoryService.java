@@ -26,6 +26,10 @@ public class CategoryService {
     }
 
     public Category updateCategory(int id , Category updatedCategory){
+
+        if(!categoryRepository.existsById(id))
+            return null;
+
         Category category = categoryRepository.findById(id).orElse(null);
 
         category.setCategory(updatedCategory.getCategory());

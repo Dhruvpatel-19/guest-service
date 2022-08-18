@@ -41,12 +41,12 @@ public class Property {
     @JoinColumn(name="property_id_fk" , referencedColumnName = "propertyId" , nullable = false)
     private List<Image> images;
 
-    @OneToMany(targetEntity = SocietyAmenities.class , cascade = CascadeType.ALL)
-    @JoinColumn(name="property_id_fk",referencedColumnName = "propertyId" , nullable = false)
+    @ManyToMany(targetEntity = SocietyAmenities.class)
+    @JoinTable(name = "property_society_amenities" , joinColumns = @JoinColumn(name = "property_id")  , inverseJoinColumns = @JoinColumn(name = "society_amenities_id") )
     private List<SocietyAmenities> societyAmenities;
 
-    @OneToMany(targetEntity = FlatAmenities.class , cascade = CascadeType.ALL)
-    @JoinColumn(name="property_id_fk",referencedColumnName = "propertyId" , nullable = false)
+    @ManyToMany( targetEntity = FlatAmenities.class)
+    @JoinTable( name = "property_flat_amenities" , joinColumns = @JoinColumn(name = "property_id") , inverseJoinColumns = @JoinColumn(name="flat_amenities_id"))
     private List<FlatAmenities> flatAmenities;
 
     @OneToOne(targetEntity = Category.class)

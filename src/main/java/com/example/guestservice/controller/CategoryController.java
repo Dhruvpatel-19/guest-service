@@ -14,28 +14,28 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(value = "/addCategory" , method = RequestMethod.POST)
+    @PostMapping(value = "/addCategory")
     public Category addCategory(@RequestBody Category category){
         return categoryService.addCategory(category);
     }
 
 
-    @RequestMapping(value = "/getCategoryById/{id}" , method = RequestMethod.GET)
+    @GetMapping(value = "/getCategoryById/{id}")
     public Category getCategoryById(@PathVariable("id") int id){
         return categoryService.getCategoryById(id);
     }
 
-    @RequestMapping(value = "/getAllCategory" , method = RequestMethod.GET)
+    @GetMapping(value = "/getAllCategory")
     public List<Category> getAllCategory(){
         return categoryService.getAllCategory();
     }
 
-    @RequestMapping(value = "/updateCategory/{id}" , method = RequestMethod.PUT)
+    @PutMapping(value = "/updateCategory/{id}")
     public Category updateCategory(@PathVariable("id") int id ,@RequestBody Category category){
         return categoryService.updateCategory(id , category);
     }
 
-    @RequestMapping(value = "/deleteCategory/{id}" , method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/deleteCategory/{id}")
     public String deleteCategory(@PathVariable("id") int id){
         return categoryService.deleteCategory(id);
     }

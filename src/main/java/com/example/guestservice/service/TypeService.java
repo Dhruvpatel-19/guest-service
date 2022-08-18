@@ -26,6 +26,9 @@ public class TypeService {
     }
 
     public Type updateType(int id , Type updatedType){
+        if(!typeRepository.existsById(id))
+            return null;
+
         Type type = typeRepository.findById(id).orElse(null);
 
         type.setType(updatedType.getType());

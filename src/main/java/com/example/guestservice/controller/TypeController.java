@@ -14,27 +14,27 @@ public class TypeController {
     @Autowired
     private TypeService typeService;
 
-    @RequestMapping(value = "/addType" , method = RequestMethod.POST)
+    @PostMapping(value = "/addType")
     public Type addType(@RequestBody Type type){
         return typeService.addType(type);
     }
 
-    @RequestMapping(value = "/getTypeById/{id}" , method = RequestMethod.GET)
+    @GetMapping(value = "/getTypeById/{id}")
     public Type getType(@PathVariable("id") int id){
         return typeService.getType(id);
     }
 
-    @RequestMapping(value = "/getAllType" , method = RequestMethod.GET)
+    @GetMapping(value = "/getAllType")
     public List<Type> getAllType(){
         return typeService.getAllType();
     }
 
-    @RequestMapping(value = "/updateType/{id}" , method = RequestMethod.PUT)
+    @PutMapping(value = "/updateType/{id}")
     public Type updateType(@PathVariable("id") int id , @RequestBody Type type){
         return typeService.updateType(id , type);
     }
 
-    @RequestMapping(value = "/deleteType/{id}" , method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/deleteType/{id}")
     public String deleteType(@PathVariable("id") int id){
         return typeService.deleteType(id);
     }
