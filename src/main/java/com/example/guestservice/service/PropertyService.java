@@ -1,13 +1,7 @@
 package com.example.guestservice.service;
 
-import com.example.guestservice.entity.Address;
-import com.example.guestservice.entity.Category;
-import com.example.guestservice.entity.Property;
-import com.example.guestservice.entity.Type;
-import com.example.guestservice.repository.AddressRepository;
-import com.example.guestservice.repository.CategoryRepository;
-import com.example.guestservice.repository.PropertyReposiitory;
-import com.example.guestservice.repository.TypeRepository;
+import com.example.guestservice.entity.*;
+import com.example.guestservice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +22,12 @@ public class PropertyService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private FlatAmenitiesRepository flatAmenitiesRepository;
+
+    @Autowired
+    private SocietyAmenitiesRepository societyAmenitiesRepository;
 
     public Property addProperty(Property property){
 
@@ -52,6 +52,39 @@ public class PropertyService {
 
         property.setCategory(category);
         property.setType(type);
+
+
+        List<FlatAmenities> flatAmenitiesList = property.getFlatAmenities();
+        FlatAmenities flatAmenities ;
+        for(int i=0 ; i<flatAmenitiesList.size() ; i++){
+             flatAmenities = flatAmenitiesList.get(0);
+
+            if(flatAmenitiesRepository.existsByName(flatAmenities.getName())){
+                flatAmenities = flatAmenitiesRepository.findByName(flatAmenities.getName());
+            }
+            else{
+                flatAmenities = flatAmenitiesRepository.findByName("Other");
+            }
+            flatAmenitiesList.add(flatAmenities);
+        }
+
+        List<SocietyAmenities> societyAmenitiesList = property.getSocietyAmenities();
+        SocietyAmenities societyAmenities;
+        for(int i=0 ; i<societyAmenitiesList.size() ; i++){
+            societyAmenities = societyAmenitiesList.get(0);
+
+            if(societyAmenitiesRepository.existsByName(societyAmenities.getName())){
+                societyAmenities = societyAmenitiesRepository.findByName(societyAmenities.getName());
+            }
+            else{
+                societyAmenities = societyAmenitiesRepository.findByName("Other");
+            }
+            societyAmenitiesList.add(societyAmenities);
+        }
+
+        property.setFlatAmenities(flatAmenitiesList);
+        property.setSocietyAmenities(societyAmenitiesList);
+        
 
         return propertyReposiitory.save(property);
     }
