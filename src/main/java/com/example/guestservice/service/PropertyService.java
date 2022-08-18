@@ -1,8 +1,10 @@
 package com.example.guestservice.service;
 
+import com.example.guestservice.entity.Address;
 import com.example.guestservice.entity.Category;
 import com.example.guestservice.entity.Property;
 import com.example.guestservice.entity.Type;
+import com.example.guestservice.repository.AddressRepository;
 import com.example.guestservice.repository.CategoryRepository;
 import com.example.guestservice.repository.PropertyReposiitory;
 import com.example.guestservice.repository.TypeRepository;
@@ -24,6 +26,9 @@ public class PropertyService {
     @Autowired
     private TypeRepository typeRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     public Property addProperty(Property property){
 
         property.setCreatedAt(LocalDateTime.now());
@@ -34,21 +39,19 @@ public class PropertyService {
         boolean categoryExists = categoryRepository.existsByCategory(category.getCategory());
         boolean typeExists = typeRepository.existsByType(type.getType());
 
-        Category category1 = null;
-        Type type1 = null;
 
         if(categoryExists)
-            category1 = categoryRepository.findByCategory(category.getCategory());
+            category = categoryRepository.findByCategory(category.getCategory());
         else
-            category1 = categoryRepository.findByCategory("Other");
+            category = categoryRepository.findByCategory("Other");
 
         if(typeExists)
-            type1 = typeRepository.findByType(type.getType());
+            type = typeRepository.findByType(type.getType());
         else
-            type1 = typeRepository.findByType("Other");
+            type = typeRepository.findByType("Other");
 
-        property.setCategory(category1);
-        property.setType(type1);
+        property.setCategory(category);
+        property.setType(type);
 
         return propertyReposiitory.save(property);
     }
@@ -62,6 +65,11 @@ public class PropertyService {
     }
 
     public Property updateProperty(int id , Property updatedProperty){
+        boolean propertyExists = propertyReposiitory.existsById(id);
+        if(!propertyExists){
+            return null;
+        }
+
         Property property = propertyReposiitory.findById(id).orElse(null);
 
         property.setPrice(updatedProperty.getPrice());
@@ -76,19 +84,46 @@ public class PropertyService {
         property.setSocietyAmenities(updatedProperty.getSocietyAmenities());
         property.setFlatAmenities(updatedProperty.getFlatAmenities());
 
-        //if(property.getCategory() != updatedProperty.getCategory()){
 
-            property.setCategory(updatedProperty.getCategory());
+        boolean catagoryExists = categoryRepository.existsByCategory(updatedProperty.getCategory().getCategory());
+        Category category;
+        if(catagoryExists){
+            category = categoryRepository.findByCategory(updatedProperty.getCategory().getCategory());
+        }
+        else{
+            category = categoryRepository.findByCategory("Other");
+        }
+        property.setCategory(category);
 
-        //}
 
-        //if(property.getType() != updatedProperty.getType()){
-            property.setType(updatedProperty.getType());
-        //}
+        boolean typeExists = typeRepository.existsByType(updatedProperty.getType().getType());
+        Type type;
+        if(typeExists){
+            type = typeRepository.findByType(updatedProperty.getType().getType());
+        }else{
+            type = typeRepository.findByType("Other");
+        }
+        property.setType(type);
 
-        //if(property.getAddress() != updatedProperty.getAddress()) {
-            property.setAddress(updatedProperty.getAddress());
-        //}
+
+
+        Address updatedAddress = updatedProperty.getAddress();
+        boolean addressExists = addressRepository.existsByStreetLineAndAdditionalStreetAndCityAndStateAndPostCode(updatedAddress.getStreetLine() , updatedAddress.getAdditionalStreet() , updatedAddress.getCity() , updatedAddress.getState() , updatedAddress.getPostCode() );
+        if(!addressExists){
+
+            Address address = property.getAddress();
+
+            address.setStreetLine(updatedAddress.getStreetLine());
+            address.setAdditionalStreet(updatedAddress.getAdditionalStreet());
+            address.setCity(updatedAddress.getCity());
+            address.setState(updatedAddress.getState());
+            address.setState(updatedAddress.getState());
+            address.setPostCode(updatedAddress.getPostCode());
+
+            addressRepository.save(address);
+        }
+
+
 
         return propertyReposiitory.save(property);
     }
@@ -97,11 +132,9 @@ public class PropertyService {
         boolean isExist = propertyReposiitory.existsById(id);
 
         if(isExist) {
-            System.out.println("Property exists .........");
             propertyReposiitory.deleteById(id);
             return "Property deleted successfully";
         }else {
-            System.out.println("Property doen't exists .........");
             return "Property doesn't exist";
         }
     }

@@ -1,7 +1,6 @@
 package com.example.guestservice.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class Type {
