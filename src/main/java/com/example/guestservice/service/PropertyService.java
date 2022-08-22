@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,9 +56,10 @@ public class PropertyService {
 
 
         List<FlatAmenities> flatAmenitiesList = property.getFlatAmenities();
+        List<FlatAmenities> flatAmenitiesListNew = new ArrayList<>();
         FlatAmenities flatAmenities ;
         for(int i=0 ; i<flatAmenitiesList.size() ; i++){
-             flatAmenities = flatAmenitiesList.get(0);
+             flatAmenities = flatAmenitiesList.get(i);
 
             if(flatAmenitiesRepository.existsByName(flatAmenities.getName())){
                 flatAmenities = flatAmenitiesRepository.findByName(flatAmenities.getName());
@@ -65,13 +67,14 @@ public class PropertyService {
             else{
                 flatAmenities = flatAmenitiesRepository.findByName("Other");
             }
-            flatAmenitiesList.add(flatAmenities);
+            flatAmenitiesListNew.add(flatAmenities);
         }
 
         List<SocietyAmenities> societyAmenitiesList = property.getSocietyAmenities();
+        List<SocietyAmenities> societyAmenitiesListNew = new ArrayList<>();
         SocietyAmenities societyAmenities;
         for(int i=0 ; i<societyAmenitiesList.size() ; i++){
-            societyAmenities = societyAmenitiesList.get(0);
+            societyAmenities = societyAmenitiesList.get(i);
 
             if(societyAmenitiesRepository.existsByName(societyAmenities.getName())){
                 societyAmenities = societyAmenitiesRepository.findByName(societyAmenities.getName());
@@ -79,11 +82,11 @@ public class PropertyService {
             else{
                 societyAmenities = societyAmenitiesRepository.findByName("Other");
             }
-            societyAmenitiesList.add(societyAmenities);
+            societyAmenitiesListNew.add(societyAmenities);
         }
 
-        property.setFlatAmenities(flatAmenitiesList);
-        property.setSocietyAmenities(societyAmenitiesList);
+        property.setFlatAmenities(flatAmenitiesListNew);
+        property.setSocietyAmenities(societyAmenitiesListNew);
         
 
         return propertyReposiitory.save(property);
