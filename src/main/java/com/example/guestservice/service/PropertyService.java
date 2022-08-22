@@ -117,26 +117,53 @@ public class PropertyService {
         property.setAvailableTo(updatedProperty.getAvailableTo());
         property.setParkingAvailability(updatedProperty.getParkingAvailability());
         property.setImages(updatedProperty.getImages());
-        property.setSocietyAmenities(updatedProperty.getSocietyAmenities());
-        property.setFlatAmenities(updatedProperty.getFlatAmenities());
 
+
+        List<SocietyAmenities> societyAmenitiesList = updatedProperty.getSocietyAmenities();
+        List<SocietyAmenities> societyAmenitiesListNew = new ArrayList<>();
+        SocietyAmenities societyAmenities;
+        for(int i=0 ; i<societyAmenitiesList.size() ; i++){
+            societyAmenities = updatedProperty.getSocietyAmenities().get(i);
+            if(societyAmenitiesRepository.existsByName(societyAmenities.getName())) {
+                societyAmenities = societyAmenitiesRepository.findByName(societyAmenities.getName());
+            }else{
+                societyAmenities = societyAmenitiesRepository.findByName("Other");
+            }
+            societyAmenitiesListNew.add(societyAmenities);
+        }
+        property.setSocietyAmenities(societyAmenitiesListNew);
+
+
+        List<FlatAmenities> flatAmenitiesList = updatedProperty.getFlatAmenities();
+        List<FlatAmenities> flatAmenitiesListNew = new ArrayList<>();
+        FlatAmenities flatAmenities;
+        for(int i=0 ; i<flatAmenitiesList.size() ; i++){
+            flatAmenities = updatedProperty.getFlatAmenities().get(i);
+            if(flatAmenitiesRepository.existsByName(flatAmenities.getName())){
+                flatAmenities = flatAmenitiesRepository.findByName(flatAmenities.getName());
+            }else{
+                flatAmenities = flatAmenitiesRepository.findByName("Other");
+            }
+            flatAmenitiesListNew.add(flatAmenities);
+        }
+        property.setFlatAmenities(flatAmenitiesListNew);
 
         boolean catagoryExists = categoryRepository.existsByCategory(updatedProperty.getCategory().getCategory());
         Category category;
-        if(catagoryExists){
-            category = categoryRepository.findByCategory(updatedProperty.getCategory().getCategory());
+        if (catagoryExists) {
+                category = categoryRepository.findByCategory(updatedProperty.getCategory().getCategory());
+        } else {
+                category = categoryRepository.findByCategory("Other");
         }
-        else{
-            category = categoryRepository.findByCategory("Other");
-        }
+
         property.setCategory(category);
 
 
         boolean typeExists = typeRepository.existsByType(updatedProperty.getType().getType());
         Type type;
-        if(typeExists){
+        if (typeExists) {
             type = typeRepository.findByType(updatedProperty.getType().getType());
-        }else{
+        } else {
             type = typeRepository.findByType("Other");
         }
         property.setType(type);
@@ -158,8 +185,6 @@ public class PropertyService {
 
             addressRepository.save(address);
         }
-
-
 
         return propertyReposiitory.save(property);
     }
