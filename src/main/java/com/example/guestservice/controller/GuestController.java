@@ -1,9 +1,13 @@
 package com.example.guestservice.controller;
 
-import com.example.guestservice.entity.Property;
-import com.example.guestservice.service.PropertyService;
+import com.example.guestservice.dto.AllPropertyDTO;
+import com.example.guestservice.dto.PropertyDTO;
+import com.example.guestservice.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -12,32 +16,15 @@ import java.util.List;
 public class GuestController {
 
     @Autowired
-    private PropertyService propertyService;
+    private GuestService guestService;
 
-    @PostMapping(value = "/addProperty")
-    public Property addProperty(@RequestBody Property property){
-        return propertyService.addProperty(property);
+    @GetMapping(value = "/getAllProperty")
+    public List<AllPropertyDTO> getAllProperty(){
+        return guestService.getAllProperty();
     }
 
     @GetMapping(value = "/getProperty/{id}")
-    public Property getProperty(@PathVariable("id")int id){
-        return propertyService.getProperty(id);
+    public PropertyDTO getProperty(@PathVariable("id")int id){
+        return guestService.getProperty(id);
     }
-
-    @GetMapping(value = "/getAllProperty")
-    public List<Property> getAllProperty(){
-        return propertyService.getAllProperty();
-    }
-
-    @PutMapping(value = "/updateProperty/{id}")
-    public Property updateProperty(@PathVariable("id") int id , @RequestBody Property updatedProperty){
-       return propertyService.updateProperty(id , updatedProperty);
-    }
-
-    @DeleteMapping(value = "/deleteProperty/{id}")
-    public String deleteProperty(@PathVariable("id") int id){
-        return propertyService.deleteProperty(id);
-    }
-
-
 }

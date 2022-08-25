@@ -15,7 +15,7 @@ import java.util.List;
 public class PropertyService {
 
     @Autowired
-    private PropertyReposiitory propertyReposiitory;
+    private PropertyRepository propertyRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -94,25 +94,25 @@ public class PropertyService {
         property.setSocietyAmenities(societyAmenitiesListNew);
 
 
-        return propertyReposiitory.save(property);
+        return propertyRepository.save(property);
     }
 
     public Property getProperty(int id){
-        return propertyReposiitory.findById(id).orElse(null);
+        return propertyRepository.findById(id).orElse(null);
     }
 
     public List<Property> getAllProperty(){
-        return propertyReposiitory.findAll();
+        return propertyRepository.findAll();
     }
 
     public Property updateProperty(int id , Property updatedProperty){
 
-        boolean propertyExists = propertyReposiitory.existsById(id);
+        boolean propertyExists = propertyRepository.existsById(id);
         if(!propertyExists){
             return null;
         }
 
-        Property property = propertyReposiitory.findById(id).orElse(null);
+        Property property = propertyRepository.findById(id).orElse(null);
 
         property.setPrice(updatedProperty.getPrice());
         property.setPropertyName(updatedProperty.getPropertyName());
@@ -206,14 +206,14 @@ public class PropertyService {
             }
         }
 
-        return propertyReposiitory.save(property);
+        return propertyRepository.save(property);
     }
 
     public String deleteProperty(int id){
-        boolean isExist = propertyReposiitory.existsById(id);
+        boolean isExist = propertyRepository.existsById(id);
 
         if(isExist) {
-            propertyReposiitory.deleteById(id);
+            propertyRepository.deleteById(id);
             return "Property deleted successfully";
         }else {
             return "Property doesn't exist";
