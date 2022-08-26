@@ -60,6 +60,8 @@ public class GuestService {
         propertyDTO.setFurnishing(property.getFurnishing());
         propertyDTO.setAvailableFrom(property.getAvailableFrom());
         propertyDTO.setAvailableTo(property.getAvailableTo());
+        propertyDTO.setParkingAvailability(property.getParkingAvailability());
+        propertyDTO.setSold(property.isSold());
         propertyDTO.setCreatedAt(property.getCreatedAt());
         propertyDTO.setImages(imageDTOList);
         propertyDTO.setSocietyAmenities(societyAmenitiesDTOList);

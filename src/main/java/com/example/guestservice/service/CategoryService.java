@@ -27,9 +27,6 @@ public class CategoryService {
 
     public Category updateCategory(int id , Category updatedCategory){
 
-        if(!categoryRepository.existsById(id))
-            return null;
-
         Category category = categoryRepository.findById(id).orElse(null);
 
         category.setCategory(updatedCategory.getCategory());
@@ -39,15 +36,8 @@ public class CategoryService {
 
     public String deleteCategory(int id){
 
-        boolean isExist = categoryRepository.existsById(id);
-
-        if(isExist){
-            Category category = categoryRepository.findById(id).orElse(null);
-            categoryRepository.deleteById(id);
-            return "Category with name "+category.getCategory()+" deleted successfully";
-        }
-        else{
-            return "Category with id "+id+" doesn't exist";
-        }
+        Category category = categoryRepository.findById(id).orElse(null);
+        categoryRepository.deleteById(id);
+        return "Category with name "+category.getCategory()+" deleted successfully";
     }
 }

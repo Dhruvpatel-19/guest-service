@@ -26,8 +26,6 @@ public class TypeService {
     }
 
     public Type updateType(int id , Type updatedType){
-        if(!typeRepository.existsById(id))
-            return null;
 
         Type type = typeRepository.findById(id).orElse(null);
 
@@ -37,16 +35,8 @@ public class TypeService {
     }
 
     public String deleteType(int id){
-        boolean isExists = typeRepository.existsById(id);
-
-        if(isExists){
-            Type type = typeRepository.findById(id).orElse(null);
-
-            typeRepository.deleteById(id);
-
-            return "Type with name "+type.getType()+" deleted successfully";
-        }else{
-            return "Type with id "+id+" doesn't exist";
-        }
+        Type type = typeRepository.findById(id).orElse(null);
+        typeRepository.deleteById(id);
+        return "Type with name "+type.getType()+" deleted successfully";
     }
 }

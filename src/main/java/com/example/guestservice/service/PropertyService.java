@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,63 +35,6 @@ public class PropertyService {
 
 
     public Property addProperty(Property property){
-
-        property.setCreatedAt(LocalDateTime.now());
-
-        Category category = property.getCategory();
-        boolean categoryExists = categoryRepository.existsByCategory(category.getCategory());
-        if(categoryExists)
-            category = categoryRepository.findByCategory(category.getCategory());
-        else
-            category = categoryRepository.findByCategory("Other");
-        property.setCategory(category);
-
-
-        Type type = property.getType();
-        boolean typeExists = typeRepository.existsByType(type.getType());
-        if(typeExists)
-            type = typeRepository.findByType(type.getType());
-        else
-            type = typeRepository.findByType("Other");
-        property.setType(type);
-
-
-        List<FlatAmenities> flatAmenitiesList = property.getFlatAmenities();
-        List<FlatAmenities> flatAmenitiesListNew = new ArrayList<>();
-        FlatAmenities flatAmenities ;
-        for(int i=0 ; i<flatAmenitiesList.size() ; i++){
-             flatAmenities = flatAmenitiesList.get(i);
-
-            if(flatAmenitiesRepository.existsByName(flatAmenities.getName())){
-                flatAmenities = flatAmenitiesRepository.findByName(flatAmenities.getName());
-            }
-            else{
-                flatAmenities = flatAmenitiesRepository.findByName("Other");
-            }
-
-            flatAmenitiesListNew.add(flatAmenities);
-        }
-        property.setFlatAmenities(flatAmenitiesListNew);
-
-
-        List<SocietyAmenities> societyAmenitiesList = property.getSocietyAmenities();
-        List<SocietyAmenities> societyAmenitiesListNew = new ArrayList<>();
-        SocietyAmenities societyAmenities;
-        for(int i=0 ; i<societyAmenitiesList.size() ; i++){
-            societyAmenities = societyAmenitiesList.get(i);
-
-            if(societyAmenitiesRepository.existsByName(societyAmenities.getName())){
-                societyAmenities = societyAmenitiesRepository.findByName(societyAmenities.getName());
-            }
-            else{
-                societyAmenities = societyAmenitiesRepository.findByName("Other");
-            }
-
-            societyAmenitiesListNew.add(societyAmenities);
-        }
-        property.setSocietyAmenities(societyAmenitiesListNew);
-
-
         return propertyRepository.save(property);
     }
 
@@ -107,11 +48,6 @@ public class PropertyService {
 
     public Property updateProperty(int id , Property updatedProperty){
 
-        boolean propertyExists = propertyRepository.existsById(id);
-        if(!propertyExists){
-            return null;
-        }
-
         Property property = propertyRepository.findById(id).orElse(null);
 
         property.setPrice(updatedProperty.getPrice());
@@ -123,6 +59,7 @@ public class PropertyService {
         property.setAvailableFrom(updatedProperty.getAvailableFrom());
         property.setAvailableTo(updatedProperty.getAvailableTo());
         property.setParkingAvailability(updatedProperty.getParkingAvailability());
+        property.setSold(updatedProperty.isSold());
 
 
         if(!compareListsImages(property.getImages() , updatedProperty.getImages())  ) {
@@ -132,92 +69,51 @@ public class PropertyService {
 
 
         if(!compareListsSocietyAmenities(property.getSocietyAmenities() , updatedProperty.getSocietyAmenities())) {
-            List<SocietyAmenities> societyAmenitiesList = updatedProperty.getSocietyAmenities();
-            List<SocietyAmenities> societyAmenitiesListNew = new ArrayList<>();
-            SocietyAmenities societyAmenities;
-            for (int i = 0; i < societyAmenitiesList.size(); i++) {
-                societyAmenities = societyAmenitiesList.get(i);
-                if (societyAmenitiesRepository.existsByName(societyAmenities.getName())) {
-                    societyAmenities = societyAmenitiesRepository.findByName(societyAmenities.getName());
-                } else {
-                    societyAmenities = societyAmenitiesRepository.findByName("Other");
-                }
-                societyAmenitiesListNew.add(societyAmenities);
-            }
-            property.setSocietyAmenities(societyAmenitiesListNew);
+            property.setSocietyAmenities(updatedProperty.getSocietyAmenities());
         }
 
 
         if(!compareListsFlatAmenities(property.getFlatAmenities() , updatedProperty.getFlatAmenities())) {
-            List<FlatAmenities> flatAmenitiesList = updatedProperty.getFlatAmenities();
-            List<FlatAmenities> flatAmenitiesListNew = new ArrayList<>();
-            FlatAmenities flatAmenities;
-            for(int i=0 ; i<flatAmenitiesList.size() ; i++){
-                flatAmenities = flatAmenitiesList.get(i);
-                if(flatAmenitiesRepository.existsByName(flatAmenities.getName())){
-                    flatAmenities = flatAmenitiesRepository.findByName(flatAmenities.getName());
-                }else{
-                    flatAmenities = flatAmenitiesRepository.findByName("Other");
-                }
-                flatAmenitiesListNew.add(flatAmenities);
-            }
-            property.setFlatAmenities(flatAmenitiesListNew);
+            property.setFlatAmenities(updatedProperty.getFlatAmenities());
         }
 
         if(!property.getCategory().equals(updatedProperty.getCategory())) {
-            boolean catagoryExists = categoryRepository.existsByCategory(updatedProperty.getCategory().getCategory());
-            Category category;
-            if (catagoryExists) {
-                category = categoryRepository.findByCategory(updatedProperty.getCategory().getCategory());
-            } else {
-                category = categoryRepository.findByCategory("Other");
-            }
+            Category   category = categoryRepository.findByCategory(updatedProperty.getCategory().getCategory());
             property.setCategory(category);
         }
 
         if(!property.getType().equals(updatedProperty.getType())){
-            boolean typeExists = typeRepository.existsByType(updatedProperty.getType().getType());
-            Type type;
-            if (typeExists) {
-                type = typeRepository.findByType(updatedProperty.getType().getType());
-            } else {
-                type = typeRepository.findByType("Other");
-            }
+             Type  type = typeRepository.findByType(updatedProperty.getType().getType());
             property.setType(type);
         }
 
 
         if(!property.getAddress().equals(updatedProperty.getAddress())) {
             Address updatedAddress = updatedProperty.getAddress();
+            /*
+                boolean addressExists = addressRepository.existsByStreetLineAndAdditionalStreetAndCityAndStateAndPostCode(updatedAddress.getStreetLine(), updatedAddress.getAdditionalStreet(), updatedAddress.getCity(), updatedAddress.getState(), updatedAddress.getPostCode());
+                if (!addressExists) {
+            }*/
+            Address address = property.getAddress();
+            address.setStreetLine(updatedAddress.getStreetLine());
+            address.setAdditionalStreet(updatedAddress.getAdditionalStreet());
+            address.setCity(updatedAddress.getCity());
+            address.setState(updatedAddress.getState());
+            address.setState(updatedAddress.getState());
+            address.setPostCode(updatedAddress.getPostCode());
 
-            boolean addressExists = addressRepository.existsByStreetLineAndAdditionalStreetAndCityAndStateAndPostCode(updatedAddress.getStreetLine(), updatedAddress.getAdditionalStreet(), updatedAddress.getCity(), updatedAddress.getState(), updatedAddress.getPostCode());
-            if (!addressExists) {
+            addressRepository.save(address);
+            property.setAddress(address);
 
-                Address address = property.getAddress();
-                address.setStreetLine(updatedAddress.getStreetLine());
-                address.setAdditionalStreet(updatedAddress.getAdditionalStreet());
-                address.setCity(updatedAddress.getCity());
-                address.setState(updatedAddress.getState());
-                address.setState(updatedAddress.getState());
-                address.setPostCode(updatedAddress.getPostCode());
-
-                addressRepository.save(address);
-                property.setAddress(address);
-            }
         }
 
         return propertyRepository.save(property);
     }
 
     public String deleteProperty(int id){
-        boolean isExist = propertyRepository.existsById(id);
-
-        if(isExist) {
-            propertyRepository.deleteById(id);
-            return "Property deleted successfully";
-        }else {
-            return "Property doesn't exist";
-        }
+        Property property = propertyRepository.findById(id).orElse(null);
+        propertyRepository.deleteById(id);
+        return "Property with name " +property.getPropertyName()+" deleted successfully";
     }
 
     private boolean compareListsImages(List<Image> prevList , List<Image> nextList){

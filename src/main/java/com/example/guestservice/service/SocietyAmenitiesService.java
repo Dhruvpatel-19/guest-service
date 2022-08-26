@@ -26,8 +26,7 @@ public class SocietyAmenitiesService {
     }
 
     public SocietyAmenities updateSocietyAmenities(int id , SocietyAmenities updateSocietyAmenities){
-        if(!societyAmenitiesRepository.existsById(id))
-            return null;
+
         SocietyAmenities societyAmenities = societyAmenitiesRepository.findById(id).orElse(null);
 
         societyAmenities.setName(updateSocietyAmenities.getName());
@@ -38,8 +37,6 @@ public class SocietyAmenitiesService {
     }
 
     public String deleteSocietyAmenities(int id){
-        if(!societyAmenitiesRepository.existsById(id))
-            return "SocietyAmenities with id "+id+" doesn't exists" ;
 
         SocietyAmenities societyAmenities = societyAmenitiesRepository.findById(id).orElse(null);
 

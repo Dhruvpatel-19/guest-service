@@ -2,7 +2,6 @@ package com.example.guestservice.dto;
 
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -23,6 +22,7 @@ public class PropertyDTO {
     private Date availableFrom;
     private Date availableTo;
     private String parkingAvailability;
+    private boolean isSold;
     private LocalDateTime createdAt;
     private List<ImageDTO> images;
     private List<SocietyAmenitiesDTO> societyAmenities;

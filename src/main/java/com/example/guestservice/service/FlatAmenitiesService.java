@@ -26,8 +26,6 @@ public class FlatAmenitiesService {
     }
 
     public FlatAmenities updateFlatAmenities(int id , FlatAmenities updatedFlatAmenities){
-        if(!flatAmenitiesRepository.existsById(id))
-            return null;
 
         FlatAmenities flatAmenities = flatAmenitiesRepository.findById(id).orElse(null);
 
@@ -39,9 +37,6 @@ public class FlatAmenitiesService {
     }
 
     public String deleteFlatAmenities(int id){
-        if(!flatAmenitiesRepository.existsById(id)){
-            return "FlatAmenities with id "+id+" doesn't exist";
-        }
 
         FlatAmenities flatAmenities = flatAmenitiesRepository.findById(id).orElse(null);
 
