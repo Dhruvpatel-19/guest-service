@@ -1,7 +1,7 @@
 package com.example.guestservice.controller;
 
 import com.example.guestservice.dto.AllPropertyDTO;
-import com.example.guestservice.dto.PropertyDTO;
+import com.example.guestservice.entity.Property;
 import com.example.guestservice.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,7 @@ public class GuestController {
     }
 
     @GetMapping(value = "/getProperty/{id}")
-    public PropertyDTO getProperty(@PathVariable("id")int id){
+    public Property getProperty(@PathVariable("id")int id){
         return guestService.getProperty(id);
     }
 }
