@@ -2,6 +2,7 @@ package com.example.guestservice.service;
 
 import com.example.guestservice.dto.*;
 import com.example.guestservice.entity.*;
+import com.example.guestservice.mapstruct.MapStructMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,28 +17,16 @@ public class GuestService {
     @Autowired
     private PropertyService propertyService;
 
+    @Autowired
+    private MapStructMapper mapStructMapper;
+
     public List<AllPropertyDTO> getAllProperty(){
         List<Property> propertyList = propertyService.getAllProperty();
-        return propertyList.stream().map(this::toAllPropertyDTO).collect(Collectors.toList());
+        return propertyList.stream().map(property -> mapStructMapper.propertyToAllPropertyDto(property)).collect(Collectors.toList());
     }
 
     public Property getProperty(int id){
         return propertyService.getProperty(id);
-    }
-    private AllPropertyDTO toAllPropertyDTO(Property property){
-        if(property == null)
-            return null;
-
-        AllPropertyDTO allPropertyDTO = new AllPropertyDTO();
-
-        allPropertyDTO.setPropertyId(property.getPropertyId());
-        allPropertyDTO.setPropertyName(property.getPropertyName());
-        allPropertyDTO.setPrice(property.getPrice());
-        allPropertyDTO.setArea(property.getArea());
-        allPropertyDTO.setImage(property.getImages().get(0).getImage());
-        allPropertyDTO.setAddress(property.getAddress());
-
-        return allPropertyDTO;
     }
 
 }
