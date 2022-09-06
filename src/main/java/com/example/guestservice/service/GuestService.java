@@ -1,7 +1,8 @@
 package com.example.guestservice.service;
 
-import com.example.guestservice.dto.*;
-import com.example.guestservice.entity.*;
+import com.example.guestservice.dto.AllPropertyDTO;
+import com.example.guestservice.entity.Property;
+import com.example.guestservice.exception.PropertyNotFoundException;
 import com.example.guestservice.mapstruct.MapStructMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,17 @@ public class GuestService {
 
     public List<AllPropertyDTO> getAllProperty(){
         List<Property> propertyList = propertyService.getAllProperty();
+        if(propertyList.isEmpty()){
+            throw new PropertyNotFoundException();
+        }
         return propertyList.stream().map(property -> mapStructMapper.propertyToAllPropertyDto(property)).collect(Collectors.toList());
     }
 
     public Property getProperty(int id){
-        return propertyService.getProperty(id);
+         if(propertyService.getProperty(id) == null){
+             throw new PropertyNotFoundException();
+         }
+         return propertyService.getProperty(id);
     }
 
 }
